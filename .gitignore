@@ -1,0 +1,22 @@
+# Android Studio specific files
+.idea/
+*.iml
+.gradle/
+local.properties
+
+# Build directories
+/build/
+captures/
+.externalNativeBuild/
+.cxx/
+
+# MacOS specific files
+.DS_Store
+
+# Android specific
+/.idea/caches/
+/.idea/libraries/
+/.idea/modules.xml
+/.idea/workspace.xml
+/.idea/navEditor.xml
+/.idea/assetWizardSettings.xml
