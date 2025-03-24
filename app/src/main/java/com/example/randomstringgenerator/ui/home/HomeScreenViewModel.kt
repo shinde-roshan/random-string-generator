@@ -1,8 +1,13 @@
 package com.example.randomstringgenerator.ui.home
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.initializer
+import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.randomstringgenerator.data.respository.RandomStringRepository
+import com.example.randomstringgenerator.RandomStringGeneratorApplication
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
@@ -29,6 +34,17 @@ class HomeScreenViewModel(
                 }
             }.onFailure { error ->
                 _uiState.update { it.copy(isLoading = false, errorMessage = error.message) }
+            }
+        }
+    }
+
+    companion object {
+        val Factory: ViewModelProvider.Factory = viewModelFactory {
+            initializer {
+                val application = (this[APPLICATION_KEY] as RandomStringGeneratorApplication)
+                HomeScreenViewModel(
+                    randomStringRepository = application.randomStringRepository
+                )
             }
         }
     }
