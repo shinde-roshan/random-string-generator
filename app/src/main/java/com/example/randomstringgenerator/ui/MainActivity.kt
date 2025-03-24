@@ -1,4 +1,4 @@
-package com.example.randomstringgenerator
+package com.example.randomstringgenerator.ui
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
