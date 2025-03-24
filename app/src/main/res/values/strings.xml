@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Random String Generator</string>
+    <string name="length_v">Length: %d</string>
+    <string name="created_v">Created: %s</string>
 </resources>
