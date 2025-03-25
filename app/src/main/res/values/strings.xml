@@ -2,4 +2,6 @@
     <string name="app_name">Random String Generator</string>
     <string name="length_v">Length: %d</string>
     <string name="created_v">Created: %s</string>
+    <string name="enter_string_length">Enter String Length</string>
+    <string name="generate">Generate</string>
 </resources>
