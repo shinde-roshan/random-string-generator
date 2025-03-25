@@ -38,6 +38,10 @@ class HomeScreenViewModel(
         }
     }
 
+    fun clearRecent() {
+        _uiState.update { it.copy(history = emptyList()) }
+    }
+
     companion object {
         val Factory: ViewModelProvider.Factory = viewModelFactory {
             initializer {

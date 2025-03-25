@@ -13,6 +13,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -79,8 +80,44 @@ fun HomeScreen(
             )
         }
 
+        if (uiState.history.isNotEmpty()) {
+            Results(
+                history = uiState.history,
+                onCleared = { viewModel.clearRecent() }
+            )
+        }
+
+    }
+}
+
+@Composable
+fun Results(
+    history: List<RandomText>,
+    onCleared: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Column(modifier = modifier) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(dimensionResource(R.dimen.dp_8))
+        ) {
+            Text(
+                text = stringResource(R.string.results),
+                style = MaterialTheme.typography.displaySmall
+            )
+            OutlinedButton (
+                onClick = onCleared
+            ) {
+                Text(text = stringResource(R.string.clear))
+            }
+
+        }
+
         LazyColumn {
-            items(uiState.history) { item ->
+            items(history) { item ->
                 TextRow(
                     randomText = item,
                     modifier = Modifier
@@ -89,6 +126,7 @@ fun HomeScreen(
                 )
             }
         }
+
     }
 }
 

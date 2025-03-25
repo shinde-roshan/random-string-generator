@@ -4,4 +4,6 @@
     <string name="created_v">Created: %s</string>
     <string name="enter_string_length">Enter String Length</string>
     <string name="generate">Generate</string>
+    <string name="results">Results</string>
+    <string name="clear">Clear</string>
 </resources>
