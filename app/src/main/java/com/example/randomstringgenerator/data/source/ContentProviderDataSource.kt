@@ -14,7 +14,7 @@ class ContentProviderDataSource(private val contentResolver: ContentResolver) {
     suspend fun getRandomText(length: Int): Result<RandomText> {
         return try {
             val queryArgs = Bundle().apply {
-                putInt(ContentResolver.QUERY_ARG_LIMIT, 1)
+                putInt(ContentResolver.QUERY_ARG_LIMIT, length)
             }
             contentResolver.query(contentUri, null, queryArgs, null)?.use { cursor ->
                 if (cursor.moveToFirst()) {
@@ -23,7 +23,7 @@ class ContentProviderDataSource(private val contentResolver: ContentResolver) {
                     return Result.success(randomTextItem.randomText)
                 }
             }
-            Result.failure(Exception("No Data"))
+            Result.failure(Exception("Failed to get string."))
         } catch (e: Exception) {
             Result.failure(e)
         }
