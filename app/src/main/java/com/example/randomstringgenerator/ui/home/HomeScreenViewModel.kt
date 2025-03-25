@@ -26,11 +26,9 @@ class HomeScreenViewModel(
             val result = randomStringRepository.getRandomText(length)
 
             result.onSuccess { newItem ->
-                val randomStrings = _uiState.value.history
-                randomStrings.add(0, newItem)
                 _uiState.update { currentState ->
                     currentState.copy(
-                        history = randomStrings,
+                        history = listOf(newItem) + currentState.history,
                         isLoading = false
                     )
                 }
@@ -41,7 +39,7 @@ class HomeScreenViewModel(
     }
 
     fun clearRecent() {
-        _uiState.update { it.copy(history = mutableListOf()) }
+        _uiState.update { it.copy(history = emptyList()) }
     }
 
     companion object {
