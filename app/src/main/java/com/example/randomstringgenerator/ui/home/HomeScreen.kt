@@ -30,6 +30,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.randomstringgenerator.R
 import com.example.randomstringgenerator.data.model.RandomText
 import com.example.randomstringgenerator.ui.theme.RandomStringGeneratorTheme
+import com.example.randomstringgenerator.utils.resDateToDisplayDate
 
 @Composable
 fun HomeScreen(
@@ -114,7 +115,7 @@ fun TextRow(
                     )
                     Spacer(Modifier.weight(1f))
                     Text(
-                        text = stringResource(R.string.created_v, randomText.created),
+                        text = stringResource(R.string.created_v, resDateToDisplayDate(randomText.created)),
                         style = MaterialTheme.typography.bodySmall
                     )
                 }
