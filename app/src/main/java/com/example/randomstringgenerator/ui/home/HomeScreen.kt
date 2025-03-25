@@ -1,5 +1,6 @@
 package com.example.randomstringgenerator.ui.home
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -41,6 +42,7 @@ fun HomeScreen(
     Column(modifier = modifier) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.dp_16)),
             modifier = Modifier.padding(dimensionResource(R.dimen.dp_8))
         ) {
             OutlinedTextField(
@@ -98,7 +100,7 @@ fun TextRow(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(dimensionResource(R.dimen.dp_4))
+                .padding(dimensionResource(R.dimen.dp_16))
         ) {
             Column {
                 Text(
