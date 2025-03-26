@@ -8,6 +8,7 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.randomstringgenerator.data.respository.RandomStringRepository
 import com.example.randomstringgenerator.RandomStringGeneratorApplication
+import com.example.randomstringgenerator.data.model.RandomText
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
@@ -40,6 +41,11 @@ class HomeScreenViewModel(
 
     fun clearRecent() {
         _uiState.update { it.copy(history = emptyList()) }
+    }
+
+    fun removeItem(item: RandomText) {
+        val updatedHistory = _uiState.value.history.toMutableList().apply { remove(item) }
+        _uiState.update { it.copy(history = updatedHistory) }
     }
 
     companion object {

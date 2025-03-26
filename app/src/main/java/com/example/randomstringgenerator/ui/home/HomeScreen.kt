@@ -9,9 +9,13 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
@@ -83,6 +87,7 @@ fun HomeScreen(
         if (uiState.history.isNotEmpty()) {
             Results(
                 history = uiState.history,
+                onItemRemove = { item -> viewModel.removeItem(item) },
                 onCleared = { viewModel.clearRecent() }
             )
         }
@@ -93,6 +98,7 @@ fun HomeScreen(
 @Composable
 fun Results(
     history: List<RandomText>,
+    onItemRemove: (item: RandomText) -> Unit,
     onCleared: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -120,6 +126,7 @@ fun Results(
             items(history) { item ->
                 TextRow(
                     randomText = item,
+                    onItemRemove = { onItemRemove(item) },
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(dimensionResource(R.dimen.dp_8))
@@ -133,15 +140,19 @@ fun Results(
 @Composable
 fun TextRow(
     randomText: RandomText,
+    onItemRemove: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Card(modifier = modifier) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(dimensionResource(R.dimen.dp_16))
+                .padding(dimensionResource(R.dimen.dp_16)),
+            horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.dp_16))
         ) {
-            Column {
+            Column (
+                modifier = Modifier.weight(1f)
+            ) {
                 Text(
                     text = randomText.value,
                     style = MaterialTheme.typography.titleLarge
@@ -158,16 +169,12 @@ fun TextRow(
                     )
                 }
             }
+            IconButton(
+                onClick = onItemRemove,
+                modifier = Modifier.align(Alignment.CenterVertically)
+            ) {
+                Icon(Icons.Default.Delete, contentDescription = "Delete")
+            }
         }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun PreviewTextRow() {
-    RandomStringGeneratorTheme {
-        TextRow(
-            RandomText("abcd", 4, "today")
-        )
     }
 }
