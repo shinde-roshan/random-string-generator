@@ -11,6 +11,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
@@ -30,11 +32,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.randomstringgenerator.R
 import com.example.randomstringgenerator.data.model.RandomText
-import com.example.randomstringgenerator.ui.theme.RandomStringGeneratorTheme
 import com.example.randomstringgenerator.utils.resDateToDisplayDate
 
 @Composable
@@ -88,6 +88,7 @@ fun HomeScreen(
             Results(
                 history = uiState.history,
                 onItemRemove = { item -> viewModel.removeItem(item) },
+                onItemLiked = { item -> viewModel.toggleLike(item) },
                 onCleared = { viewModel.clearRecent() }
             )
         }
@@ -99,6 +100,7 @@ fun HomeScreen(
 fun Results(
     history: List<RandomText>,
     onItemRemove: (item: RandomText) -> Unit,
+    onItemLiked: (item: RandomText) -> Unit,
     onCleared: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -114,7 +116,7 @@ fun Results(
                 text = stringResource(R.string.results),
                 style = MaterialTheme.typography.displaySmall
             )
-            OutlinedButton (
+            OutlinedButton(
                 onClick = onCleared
             ) {
                 Text(text = stringResource(R.string.clear))
@@ -127,6 +129,7 @@ fun Results(
                 TextRow(
                     randomText = item,
                     onItemRemove = { onItemRemove(item) },
+                    onItemLiked = { onItemLiked(item) },
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(dimensionResource(R.dimen.dp_8))
@@ -141,6 +144,7 @@ fun Results(
 fun TextRow(
     randomText: RandomText,
     onItemRemove: () -> Unit,
+    onItemLiked: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Card(modifier = modifier) {
@@ -150,7 +154,7 @@ fun TextRow(
                 .padding(dimensionResource(R.dimen.dp_16)),
             horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.dp_16))
         ) {
-            Column (
+            Column(
                 modifier = Modifier.weight(1f)
             ) {
                 Text(
@@ -164,11 +168,25 @@ fun TextRow(
                     )
                     Spacer(Modifier.weight(1f))
                     Text(
-                        text = stringResource(R.string.created_v, resDateToDisplayDate(randomText.created)),
+                        text = stringResource(
+                            R.string.created_v,
+                            resDateToDisplayDate(randomText.created)
+                        ),
                         style = MaterialTheme.typography.bodySmall
                     )
                 }
             }
+
+            IconButton(
+                onClick = onItemLiked,
+                modifier = Modifier.align(Alignment.CenterVertically)
+            ) {
+                Icon(
+                    if (randomText.isLiked) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
+                    contentDescription = "Favourite"
+                )
+            }
+
             IconButton(
                 onClick = onItemRemove,
                 modifier = Modifier.align(Alignment.CenterVertically)

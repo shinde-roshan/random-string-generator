@@ -48,6 +48,13 @@ class HomeScreenViewModel(
         _uiState.update { it.copy(history = updatedHistory) }
     }
 
+    fun toggleLike(item: RandomText) {
+        val updatedHistory = _uiState.value.history.map {
+            if (it == item) it.copy(isLiked = !it.isLiked) else it
+        }
+        _uiState.update { it.copy(history = updatedHistory) }
+    }
+
     companion object {
         val Factory: ViewModelProvider.Factory = viewModelFactory {
             initializer {
